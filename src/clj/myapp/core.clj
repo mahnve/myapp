@@ -1,7 +1,28 @@
 (ns myapp.core
-  (:gen-class))
+  (:gen-class)
+  (:require [mount.core :as mount]
+            [rum.core :as rum]
+            [yada.yada :as yada]))
+
+(rum/defc hello-world []
+  [:div [:p "Hello World"]])
+
+
+(def routes
+  ["/"
+   [["" (yada/as-resource "root")]
+    ["hello" (yada/resource {:id :resources/root
+                             :produces {:media-type "text/html"}
+                             :methods { :get
+                                       { :response (rum/render-static-markup (hello-world))}}})]]])
+
+
+(mount/defstate server
+  :start (yada/listener routes {:port 3000})
+  :stop ((:close server)))
+
 
 (defn -main
-  "I don't do a whole lot ... yet."
+  "starts the server"
   [& args]
-  (println "Hello, World!"))
+  (mount/start))
