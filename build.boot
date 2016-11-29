@@ -1,10 +1,12 @@
 (def project 'myapp)
 (def version "0.1.0-SNAPSHOT")
 
-(set-env! :resource-paths #{"resources" "src"}
-          :source-paths   #{"test"}
+(set-env! :resource-paths #{"resources" "src/clj" "src/cljs"}
+          :source-paths   #{"test/clj" "test/cljs"}
           :dependencies   '[[org.clojure/clojure "RELEASE"]
-                            [adzerk/boot-test "RELEASE" :scope "test"]])
+                            [adzerk/boot-test "RELEASE" :scope "test"]
+                            [yada "1.1.44"]
+                            [rum "0.10.7"]])
 
 (task-options!
  aot {:namespace   #{'myapp.core}}
